@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Player Swap — Nimo</title>
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh;
+      font: 16px/1.5 -apple-system, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+      color: #f4f6ff;
+      background:
+        radial-gradient(420px 360px at 8% 0%, rgba(255, 90, 170, .50), transparent 70%),
+        radial-gradient(480px 420px at 100% 25%, rgba(80, 140, 255, .50), transparent 70%),
+        radial-gradient(460px 400px at 20% 100%, rgba(60, 220, 190, .40), transparent 70%),
+        #12141f;
+      background-attachment: fixed;
+    }
+    main { max-width: 640px; margin: 0 auto; padding: 32px 16px 48px; }
+    h1 { font-size: 28px; letter-spacing: -.02em; margin: 0 0 8px; }
+    h2 { font-size: 18px; margin: 0 0 8px; }
+    .lead { color: rgba(255,255,255,.75); margin: 0 0 20px; }
+    .card {
+      margin: 0 0 16px; padding: 18px 20px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 22px;
+      backdrop-filter: blur(18px) saturate(160%);
+      -webkit-backdrop-filter: blur(18px) saturate(160%);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 10px 30px rgba(0,0,0,.3);
+    }
+    label { display: block; font-weight: 600; margin-bottom: 6px; }
+    label span { font-weight: 400; color: rgba(255,255,255,.6); }
+    input {
+      width: 100%; padding: 10px 14px; font: inherit; color: #fff; outline: none;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 18px;
+    }
+    input::placeholder { color: rgba(255,255,255,.5); }
+    input:focus { border-color: rgba(255,255,255,.55); box-shadow: 0 0 0 3px rgba(130,170,255,.35); }
+    .hint { font-size: 13px; color: rgba(255,255,255,.65); margin: 8px 0 0; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+    .bm, button {
+      font: inherit; font-weight: 600; color: #fff; text-decoration: none; cursor: pointer;
+      padding: 10px 18px; border-radius: 20px;
+      border: 1px solid rgba(255,255,255,.4);
+      background: linear-gradient(180deg, rgba(255,255,255,.32), rgba(255,255,255,.12));
+      box-shadow: inset 0 1.5px 0 rgba(255,255,255,.55), 0 6px 18px rgba(0,0,0,.3);
+    }
+    .bm { cursor: grab; }
+    .bm:active, button:active { transform: scale(.98); }
+    ol, ul { margin: 0; padding-left: 22px; }
+    li { margin: 6px 0; }
+    code { background: rgba(255,255,255,.14); padding: 1px 6px; border-radius: 8px; font-size: .92em; }
+    #status { min-height: 1.3em; }
+    .foot { font-size: 13px; color: rgba(255,255,255,.55); text-align: center; margin-top: 24px; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Player Swap → Nimo</h1>
+  <p class="lead">Mostra o player da Nimo por cima do player da Twitch ou da Kick, mantendo o chat original. Sem instalar extensão.</p>
+
+  <section class="card">
+    <label for="nimo">Canal da Nimo <span>(opcional)</span></label>
+    <input id="nimo" type="text" placeholder="nome ou link do canal" autocomplete="off">
+    <p class="hint">Se preencher, o favorito já vem com o canal. Se deixar em branco, ele pergunta na primeira vez que for usado.</p>
+    <div class="actions">
+      <a id="bm" class="bm" href="#" draggable="true">Nimo no player</a>
+      <button id="copy" type="button">Copiar o código</button>
+    </div>
+    <p id="status" class="hint" role="status"></p>
+  </section>
+
+  <section class="card">
+    <h2>No computador</h2>
+    <ol>
+      <li>Mostre a barra de favoritos (<code>Ctrl+Shift+B</code>, ou <code>Cmd+Shift+B</code> no Mac).</li>
+      <li>Arraste o botão <b>Nimo no player</b> para a barra de favoritos.</li>
+      <li>Abra uma live na Twitch ou na Kick e clique no favorito.</li>
+    </ol>
+    <p class="hint">Não dá para colar o código direto na barra de endereço: o navegador remove o <code>javascript:</code> do começo.</p>
+  </section>
+
+  <section class="card">
+    <h2>No celular (Firefox para Android)</h2>
+    <ol>
+      <li>Toque em <b>Copiar o código</b>.</li>
+      <li>No Firefox, adicione qualquer página aos favoritos.</li>
+      <li>Abra a lista de favoritos, edite esse favorito, troque o nome para <code>nimo</code> e cole o código no campo do endereço (URL).</li>
+      <li>Abra uma live na Twitch ou na Kick, toque na barra de endereço, digite <code>nimo</code> e toque na sugestão do favorito.</li>
+    </ol>
+    <p class="hint">Tocar no favorito pela lista de favoritos pode não executar o código. Use a barra de endereço. Os nomes dos menus mudam um pouco entre versões do Firefox.</p>
+  </section>
+
+  <section class="card">
+    <h2>Depois de instalar</h2>
+    <ul>
+      <li>O player da Nimo aparece por cima do player original, que fica pausado. O chat não muda.</li>
+      <li>Toque em <b>⋯</b> no canto do player para ver os botões: <b>↻</b> recarregar (ressincronizar), <b>⚙</b> trocar o canal e <b>✕</b> fechar.</li>
+      <li>Usar o favorito de novo também fecha.</li>
+      <li>Se a página bloquear o player da Nimo, aparece um aviso com um link para abrir a Nimo em outra aba.</li>
+      <li>Funciona só em lives, não em vídeos antigos ou clipes. O navegador pode bloquear o autoplay com som: se a Nimo começar pausada, toque em play.</li>
+    </ul>
+  </section>
+
+  <p class="foot">Projeto independente, sem relação com a Twitch, a Kick ou a Nimo.</p>
+</main>
+
+<script>
+  // Este código é gerado pelo build.js a partir do bookmarklet.js. Não edite aqui.
+  const TEMPLATE = /*TN_CODE_START*/"(function(){var O=\"__NIMO_CHANNEL__\",N=\"tn-nimo-channel\",K=/^(popout|embed|live|moderator)$/i,F=/^(directory|videos?|clips?|categories|category|browse|following|search|settings|dashboard|downloads?|subscriptions|inventory|wallet|drops|friends|messages|turbo|jobs|store|lives|games?|login|signup)$/i,_=/(^|\\.)kick\\.com$/.test(location.hostname),j=/(^|\\.)twitch\\.tv$/.test(location.hostname);if(window.__tnNimo){window.__tnNimo.destroy();return}if(!_&&!j){alert(\"Abra uma live da Twitch ou da Kick e clique de novo.\");return}if(/\\/(videos?|clips?)(\\/|$)/i.test(location.pathname)){alert(\"A troca s\\xF3 funciona em lives (n\\xE3o em v\\xEDdeos ou clipes).\");return}function D(e){try{return decodeURIComponent(e)}catch{return e}}function p(e){var t=String(e||\"\").trim();if(!t)return\"\";if(/[\\/.:]/.test(t)){var n;try{n=new URL(/^[a-z][a-z0-9+.-]*:\\/\\//i.test(t)?t:\"https://\"+t)}catch{return\"\"}var r=n.pathname.split(\"/\").filter(Boolean).map(D);r.length>1&&K.test(r[0])&&(r=r.slice(1));var o=r[0]||\"\";return F.test(o)?\"\":o.replace(/^@/,\"\")}return t.replace(/^@/,\"\")}function H(){try{return localStorage.getItem(N)||\"\"}catch{return\"\"}}function R(e){try{localStorage.setItem(N,e)}catch{}}var a=p(H())||p(O);if(!a){var T=prompt(\"Canal da Nimo (nome ou link):\");if(T===null)return;if(a=p(T),!a){alert(\"N\\xE3o achei o canal nesse texto.\");return}R(a)}var V=location.pathname.split(\"/\")[1]||\"\",f=null,g=!1,A=\"\",y=[],b=[],x=null,w=null;function E(){return\"https://www.nimo.tv/embed/\"+encodeURIComponent(a)}function i(e,t){var n=document.createElement(e);return t&&(n.style.cssText=t),n}function v(e,t,n){var r=i(\"button\",\"width:34px;height:34px;padding:0;border:0;border-radius:50px;background:rgba(255,255,255,.2);color:white;font:16px/34px system-ui,sans-serif;text-align:center;cursor:pointer\");return r.type=\"button\",r.textContent=e,r.title=t,r.setAttribute(\"aria-label\",t),r.addEventListener(\"click\",function(o){o.stopPropagation(),n()}),r}var l=i(\"div\",\"position:absolute;top:0;left:0;right:0;bottom:0;display:flex;z-index:2147483000;background:black\");l.id=\"tn-nimo-overlay\";var c=i(\"iframe\",\"flex:1;min-width:0;border:0;display:block\");c.allow=\"autoplay; fullscreen; encrypted-media; picture-in-picture\",c.allowFullscreen=!0,c.src=E();var u=i(\"div\",\"position:absolute;top:0;left:0;right:0;bottom:0;z-index:1;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:16px;text-align:center;color:white;font:14px system-ui,sans-serif;background:rgba(0,0,0,.85)\"),m=i(\"div\",\"position:absolute;top:8px;right:8px;z-index:2;display:flex;gap:6px;padding:4px;border-radius:50px;background:rgba(0,0,0,.55);transition:opacity .25s\"),h=i(\"div\",\"display:flex;gap:6px\");h.append(v(\"\\u21BB\",\"Recarregar o player\",S),v(\"\\u2699\",\"Trocar o canal da Nimo\",Y),v(\"\\u2715\",\"Fechar\",k)),m.append(h,v(\"\\u22EF\",\"Mostrar controles\",P)),l.append(c,u,m);function P(){h.style.display=\"flex\",m.style.opacity=\"1\",clearTimeout(w),w=setTimeout(W,4e3)}function W(){h.style.display=\"none\",m.style.opacity=\".55\"}function S(){u.style.display=\"none\",c.src=\"about:blank\",setTimeout(function(){c.src=E()},60)}function Y(){var e=prompt(\"Canal da Nimo (nome ou link):\",a);if(e!==null){var t=p(e);if(!t){alert(\"N\\xE3o achei o canal nesse texto.\");return}a=t,R(t),S()}}function L(e){if(/nimo\\.tv/i.test(e.blockedURI||\"\")){u.textContent=\"\";var t=i(\"div\");t.textContent=\"A p\\xE1gina bloqueou o player da Nimo aqui.\";var n=i(\"a\",\"color:rgb(150,200,255);font-weight:600\");n.href=E(),n.target=\"_blank\",n.rel=\"noopener\",n.textContent=\"Abrir a Nimo em outra aba\",u.append(t,n),u.style.display=\"flex\"}}function G(e){if(!e)return!1;var t=e.getBoundingClientRect();return t.width>=200&&t.height>=100}function J(){var e=document.querySelector(_?'[id=\"video-holder\"]':'[data-a-target=\"video-player\"]');if(G(e))return e;for(var t=document.querySelectorAll(\"video\"),n=null,r=0,o=0;o\u003ct.length;o++){var d=t[o].getBoundingClientRect();d.width*d.height>r&&(r=d.width*d.height,n=t[o])}if(!n)return null;var C=n.getBoundingClientRect();if(C.width\u003c200)return null;for(var s=n.parentElement,M=s,U=0;U\u003c6&&s&&s!==document.body;U++){var $=s.getBoundingClientRect();if(Math.abs($.width-C.width)\u003c=4&&Math.abs($.height-C.height)\u003c=4)M=s,s=s.parentElement;else break}return M}function q(e){e.target.pause()}function Q(){for(var e=f.querySelectorAll(\"video\"),t=0;t\u003ce.length;t++){var n=e[t];b.indexOf(n)\u003c0&&(b.push(n),n.addEventListener(\"play\",q)),n.paused||(n.pause(),y.indexOf(n)\u003c0&&y.push(n))}}function B(){f&&g&&(f.style.position=A),g=!1}function I(){var e=J();return e?(l.parentElement!==e&&(B(),f=e,getComputedStyle(e).position===\"static\"&&(A=e.style.position,e.style.position=\"relative\",g=!0),e.appendChild(l)),Q(),!0):!1}function X(){if((location.pathname.split(\"/\")[1]||\"\")!==V){k();return}I()}var z=new MutationObserver(function(){clearTimeout(x),x=setTimeout(X,400)});function k(){z.disconnect(),clearTimeout(x),clearTimeout(w),document.removeEventListener(\"securitypolicyviolation\",L),l.parentElement&&l.parentElement.removeChild(l),B(),b.forEach(function(e){e.removeEventListener(\"play\",q)}),y.forEach(function(e){try{var t=e.play();t&&t.catch&&t.catch(function(){})}catch{}}),delete window.__tnNimo}if(!I()){alert(\"N\\xE3o achei o player. Espere o v\\xEDdeo carregar na p\\xE1gina e tente de novo.\");return}z.observe(document.body,{childList:!0,subtree:!0}),document.addEventListener(\"securitypolicyviolation\",L),window.__tnNimo={destroy:k},P()})()"/*TN_CODE_END*/;
+  const PLACEHOLDER = /(["'])__NIMO_CHANNEL__\1/;
+  const $ = (id) => document.getElementById(id);
+
+  function say(text, isError) {
+    $("status").textContent = text;
+    $("status").style.color = isError ? "#ff8a8a" : "#7dffc0";
+  }
+
+  // Devolve o código do favorito, com o canal fixo se houver (o bookmarklet lê nome ou link).
+  function currentCode() {
+    let raw = $("nimo").value.trim().split(/[?#]/)[0];
+    if (raw.includes("%")) {
+      say("Esse texto tem o caractere % e não funciona no favorito. Deixe em branco e digite na primeira vez.", true);
+      raw = "";
+    }
+    const literal = JSON.stringify(raw).replace(
+      /[\u0080-￿]/g,
+      (c) => "\\u" + c.charCodeAt(0).toString(16).padStart(4, "0")
+    );
+    return TEMPLATE.replace(PLACEHOLDER, () => literal) + ";void 0";
+  }
+
+  function refresh() {
+    $("bm").href = "javascript:" + encodeURIComponent(currentCode());
+  }
+
+  $("nimo").addEventListener("input", () => { say(""); refresh(); });
+
+  $("bm").addEventListener("click", (e) => {
+    e.preventDefault();
+    say("Arraste este botão para a barra de favoritos (não é para clicar aqui).", true);
+  });
+
+  $("copy").addEventListener("click", async () => {
+    const text = "javascript:" + currentCode();
+    try {
+      await navigator.clipboard.writeText(text);
+      say("Código copiado.");
+    } catch {
+      const t = document.createElement("textarea");
+      t.value = text;
+      document.body.appendChild(t);
+      t.select();
+      let done = false;
+      try { done = document.execCommand("copy"); } catch {}
+      t.remove();
+      done ? say("Código copiado.") : say("Não consegui copiar automaticamente.", true);
+    }
+  });
+
+  refresh();
+</script>
+</body>
+</html>
