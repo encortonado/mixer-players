@@ -1,0 +1,55 @@
+{
+  "manifest_version": 3,
+  "name": "Player Mixer (Twitch/Kick → Nimo)",
+  "version": "0.3.0",
+  "description": "Mostra o player da Nimo no lugar do player da Twitch ou da Kick, mantendo o chat original.",
+  "permissions": [
+    "storage",
+    "declarativeNetRequest"
+  ],
+  "host_permissions": [
+    "https://*.twitch.tv/*",
+    "https://*.kick.com/*",
+    "https://*.nimo.tv/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "img/icons/icon16.png",
+    "32": "img/icons/icon32.png",
+    "48": "img/icons/icon48.png",
+    "128": "img/icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Player Swap",
+    "default_icon": {
+      "16": "img/icons/icon16.png",
+      "32": "img/icons/icon32.png",
+      "48": "img/icons/icon48.png",
+      "128": "img/icons/icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.twitch.tv/*",
+        "https://*.kick.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "frames",
+        "enabled": false,
+        "path": "rules.json"
+      }
+    ]
+  }
+}
